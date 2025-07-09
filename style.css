@@ -1,0 +1,199 @@
+:root {
+    --radius: 8px;
+    --bg: #f8f9fa;
+    --primary: #4f46e5;
+    --text: #111;
+    --danger: #dc2626;
+  }
+
+  body {
+    margin: 0;
+    padding: 1rem;
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  section {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1rem;
+    max-width: 500px;
+    margin: 1rem auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin: 0.5rem 0 0.2rem;
+  }
+
+  input,
+  select,
+  button {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #4338ca;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #month-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  #month-name {
+    font-weight: bold;
+    font-size: 1.4rem;
+    min-width: 130px;
+    text-align: center;
+  }
+
+  #categories-form label {
+    margin-top: 1rem;
+  }
+
+  .negativo {
+    color: var(--danger);
+  }
+
+  ul#categories-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul#categories-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0;
+  }
+
+  ul#categories-list button {
+    width: auto;
+    background: var(--danger);
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  /* Ocultar elementos con .hidden */
+.hidden {
+    display: none !important;
+  }
+  
+  /* Fondo oscuro y centrado modal */
+  #extra-income-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Caja blanca del modal */
+  #extra-income-dialog > div {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    min-width: 300px;
+    max-width: 90vw;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo etiquetas e inputs */
+  #extra-income-dialog label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  #extra-income-dialog input[type="number"],
+  #extra-income-dialog select {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Botones */
+  #extra-income-dialog button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  #extra-income-dialog button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Botón cancelar distinto */
+  #cancel-extra-income {
+    background-color: #dc3545;
+  }
+  
+  #cancel-extra-income:hover {
+    background-color: #a71d2a;
+  }
+  
+
+  /* Contenedor principal, ejemplo */
+main {
+    max-width: 480px; /* ancho base para móvil */
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Para pantallas más grandes */
+  @media (min-width: 768px) {
+    main {
+      max-width: 900px; /* ancho mayor para tablet y escritorio */
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    main {
+      max-width: 1200px; /* ancho aún mayor para pantallas grandes */
+    }
+  }
