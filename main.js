@@ -47,6 +47,16 @@ let customCategories = [];
 let uniBudgetData = null;
 let currentMonthIndex = 0;
 
+// Íconos para categorías fijas, por FontAwesome
+const categoryIcons = {
+  "Alquiler": "fa-house",
+  "Transporte": "fa-bus",
+  "Ocio": "fa-gamepad",
+  "Materiales": "fa-tools",
+  "Alimentación": "fa-utensils",
+  "Otros": "fa-ellipsis-h"
+};
+
 // =====================
 // Utilidades
 // =====================
@@ -92,16 +102,17 @@ function gastoAcumulado() {
 
 function actualizarResumen() {
   if (!uniBudgetData) return;
+  
   const { total, meses } = uniBudgetData;
   const presupuesto = total / meses;
   const gastado = gastoAcumulado();
   const saldo = total - gastado;
 
-  totalEl.textContent = formatEuro(total);
+  animateValue(totalEl, 0, total);
   mesesEl.textContent = meses;
-  presupuestoEl.textContent = formatEuro(presupuesto);
-  gastoAcumuladoEl.textContent = formatEuro(gastado);
-  saldoRestanteEl.textContent = formatEuro(saldo);
+  animateValue(presupuestoEl, 0, presupuesto);
+  animateValue(gastoAcumuladoEl, 0, gastado);
+  animateValue(saldoRestanteEl, 0, saldo);
 }
 
 function gastoMes(index) {
@@ -128,7 +139,16 @@ function renderCategoryInputs() {
   getAllCategories().forEach(cat => {
     const label = document.createElement("label");
     label.setAttribute("for", `category-${cat}`);
-    label.textContent = cat;
+
+    // Crear el icono y añadirlo al label
+    const icon = document.createElement("i");
+    icon.className = "fa-solid " + (categoryIcons[cat] || "fa-tag");
+    icon.style.marginRight = "0.5rem";
+    label.appendChild(icon);
+
+    // Añadir texto al label
+    const textNode = document.createTextNode(cat);
+    label.appendChild(textNode);
 
     const input = document.createElement("input");
     input.type = "number";
@@ -151,6 +171,7 @@ function renderCategoryInputs() {
   });
 }
 
+
 // =====================
 // Mostrar mes
 // =====================
@@ -172,13 +193,21 @@ function mostrarMes(index) {
 }
 
 // =====================
-// Categorías personalizadas
+// Categorías personalizadas con iconos dinámicos
 // =====================
 function renderCategoriesList() {
   categoriesList.innerHTML = "";
   getAllCategories().forEach(cat => {
     const li = document.createElement("li");
-    li.textContent = cat;
+    
+    // Icono FontAwesome dinámico
+    const icon = document.createElement("i");
+    icon.className = "fa-solid " + (categoryIcons[cat] || "fa-tag");
+    icon.style.marginRight = "0.5rem";
+    li.appendChild(icon);
+
+    const textNode = document.createTextNode(cat);
+    li.appendChild(textNode);
 
     if (!fixedCategories.includes(cat)) {
       const btn = document.createElement("button");
@@ -208,21 +237,37 @@ function eliminarCategoria(cat) {
 // Guardar configuración inicial
 // =====================
 saveBtn.addEventListener("click", () => {
+  clearInputErrors();
+
   const total = parseFloat(initialInput.value);
   const meses = parseInt(monthsInput.value);
   const startMonth = parseInt(startMonthSelect.value);
 
-  if (isNaN(total) || isNaN(meses) || total <= 0 || meses <= 0) {
-    alert("Por favor, introduce valores válidos.");
-    return;
+  let hasError = false;
+
+  if (isNaN(total) || total <= 0) {
+    showInputError(initialInput, "Introduce un monto válido mayor que 0.");
+    hasError = true;
   }
+
+  if (isNaN(meses) || meses <= 0) {
+    showInputError(monthsInput, "Introduce un número de meses mayor que 0.");
+    hasError = true;
+  }
+
+  if (isNaN(startMonth)) {
+    showInputError(startMonthSelect, "Selecciona un mes de inicio.");
+    hasError = true;
+  }
+
+  if (hasError) return;
 
   uniBudgetData = {
     total,
     meses,
     startMonth,
     gastos: initGastos(meses),
-    ingresosExtra: Array(meses).fill(0) // inicializa ingresos extra
+    ingresosExtra: Array(meses).fill(0)
   };
 
   saveData();
@@ -236,6 +281,22 @@ saveBtn.addEventListener("click", () => {
   actualizarResumen();
   mostrarMes(0);
 });
+
+function showInputError(input, message) {
+  input.classList.add("input-error");
+
+  const msg = document.createElement("div");
+  msg.className = "error-message";
+  msg.textContent = message;
+
+  input.parentNode.insertBefore(msg, input.nextSibling);
+  input.focus();
+}
+
+function clearInputErrors() {
+  document.querySelectorAll(".input-error").forEach(el => el.classList.remove("input-error"));
+  document.querySelectorAll(".error-message").forEach(el => el.remove());
+}
 
 // =====================
 // Navegación
@@ -285,8 +346,6 @@ window.addEventListener("DOMContentLoaded", () => {
 // =====================
 // Ingresos extra - Modal
 // =====================
-
-// Mostrar modal y rellenar select con meses disponibles
 addIncomeBtn.addEventListener("click", () => {
   if (!uniBudgetData) {
     alert("Primero configura tu presupuesto.");
@@ -308,24 +367,29 @@ addIncomeBtn.addEventListener("click", () => {
   extraIncomeDialog.classList.remove("hidden");
 });
 
-// Cancelar modal
 cancelExtraIncomeBtn.addEventListener("click", () => {
   extraIncomeDialog.classList.add("hidden");
 });
 
-// Confirmar ingreso extra
 confirmExtraIncomeBtn.addEventListener("click", () => {
+  clearInputErrors();
+
   const val = parseFloat(extraIncomeAmount.value);
+  const mesSeleccionado = parseInt(extraIncomeMonth.value);
+
+  let hasError = false;
+
   if (isNaN(val) || val <= 0) {
-    alert("Introduce un importe válido mayor que 0.");
-    return;
+    showInputError(extraIncomeAmount, "Introduce un importe mayor que 0.");
+    hasError = true;
   }
 
-  const mesSeleccionado = parseInt(extraIncomeMonth.value);
   if (isNaN(mesSeleccionado)) {
-    alert("Selecciona un mes válido.");
-    return;
+    showInputError(extraIncomeMonth, "Selecciona un mes válido.");
+    hasError = true;
   }
+
+  if (hasError) return;
 
   if (!uniBudgetData.ingresosExtra) {
     uniBudgetData.ingresosExtra = Array(uniBudgetData.meses).fill(0);
@@ -339,4 +403,94 @@ confirmExtraIncomeBtn.addEventListener("click", () => {
   mostrarMes(currentMonthIndex);
 
   extraIncomeDialog.classList.add("hidden");
+});
+
+document.getElementById("open-graph-btn").addEventListener("click", () => {
+  window.location.href = "graph.html";
+});
+
+// Añadir al inicio del DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Animación inicial
+  document.querySelector('header').style.animation = 'fadeIn 0.6s forwards';
+  
+  // Efecto especial al guardar configuración
+  saveBtn.addEventListener('click', function() {
+    if (!uniBudgetData) return;
+    
+    // Efecto visual al guardar
+    this.classList.add('pulse');
+    setTimeout(() => this.classList.remove('pulse'), 1500);
+    
+    // Feedback visual
+    const check = document.createElement('span');
+    check.innerHTML = '✓';
+    this.appendChild(check);
+    setTimeout(() => check.remove(), 2000);
+  });
+
+  // Mejor feedback al añadir categoría
+  addCategoryForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const input = newCategoryInput;
+    input.style.borderColor = '#10b981';
+    setTimeout(() => input.style.borderColor = '', 1000);
+  });
+
+  // Efecto al mostrar mes
+  const originalMostrarMes = mostrarMes;
+  mostrarMes = function(index) {
+    monthViewSection.style.opacity = '0';
+    originalMostrarMes(index);
+    setTimeout(() => {
+      monthViewSection.style.transition = 'opacity 0.3s ease';
+      monthViewSection.style.opacity = '1';
+    }, 50);
+  };
+});
+
+// Nueva función para animar cambios numéricos
+function animateValue(element, start, end, duration = 1000) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const value = Math.floor(progress * (end - start) + start);
+    element.textContent = formatEuro(value);
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
+// Mejor feedback en errores
+function showInputError(input, message) {
+  input.classList.add('input-error');
+  
+  const errorMsg = document.createElement('div');
+  errorMsg.className = 'error-message';
+  errorMsg.style.animation = 'fadeIn 0.3s ease-out';
+  errorMsg.textContent = message;
+  
+  input.parentNode.insertBefore(errorMsg, input.nextSibling);
+  input.focus();
+  
+  // Efecto de shake
+  input.style.animation = 'shake 0.5s';
+  setTimeout(() => input.style.animation = '', 500);
+}
+
+// Asegurar que los botones mantengan estilo al cargar
+document.querySelectorAll('button').forEach(btn => {
+  btn.style.opacity = '1';
+  btn.style.transform = 'none';
+});
+
+// Efecto al pasar ratón (opcional, mejora interactividad)
+document.querySelectorAll('button, section, #categories-list li').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    el.style.transition = 'all 0.2s ease';
+  });
 });

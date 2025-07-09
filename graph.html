@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Gráfica mensual - UniBudget</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="graph.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Contenedor principal */
+    main {
+      max-width: 960px;
+      margin: 1rem auto;
+      padding: 0 1rem 2rem;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Botón volver arriba a la izquierda */
+    #back-btn {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background-color: #6b7280;
+      color: white;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      min-width: auto;
+      z-index: 1000;
+    }
+    #back-btn:hover {
+      background-color: #4b5563;
+    }
+
+    h1 {
+      margin-top: 3.5rem; /* dejar espacio al botón fijo */
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #111;
+      user-select: none;
+    }
+
+    /* Canvas responsive */
+    canvas {
+      max-width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 16 / 9;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Controles botones mostrar/ocultar */
+    #chart-controls {
+      margin: 1rem 0;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    #chart-controls button {
+      flex: 1 1 auto;
+      min-width: 120px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background-color: #4f46e5;
+      color: white;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    #chart-controls button:hover {
+      background-color: #4338ca;
+    }
+
+    /* Leyenda (Chart.js maneja la leyenda) */
+
+    /* Media queries para pantallas pequeñas */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+      #chart-controls button {
+        min-width: 100px;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <button id="back-btn" onclick="window.location.href='index.html'">← Volver</button>
+    <h1>Gasto mensual</h1>
+    <canvas id="monthlyChart" ></canvas>
+    <div id="chart-controls">
+      <button id="show-all">Mostrar todo</button>
+      <button id="hide-all">Ocultar todo</button>
+    </div>
+  </main>
+
+  <script>
+    const monthNames = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    const fixedCategories = ["Alquiler", "Transporte", "Ocio", "Materiales", "Alimentación", "Otros"];
+    const customCategories = JSON.parse(localStorage.getItem("customCategories")) || [];
+    const allCategories = [...fixedCategories, ...customCategories];
+
+    const colors = [
+      "#4f46e5", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6", "#14b8a6",
+      "#6366f1", "#ec4899", "#f97316", "#22c55e", "#0ea5e9", "#e11d48"
+    ];
+
+    const uniBudgetData = JSON.parse(localStorage.getItem("uniBudgetData"));
+    if (!uniBudgetData) {
+      alert("No hay datos disponibles. Configura tu presupuesto primero.");
+      window.location.href = "index.html";
+    }
+
+    const startMonth = uniBudgetData.startMonth;
+    const gastos = uniBudgetData.gastos || [];
+    const meses = uniBudgetData.meses || 0;
+
+    const labels = [];
+    for (let i = 0; i < meses; i++) {
+      const mesIndex = (startMonth + i) % 12;
+      labels.push(monthNames[mesIndex]);
+    }
+
+    // Prepara datasets por categoría
+    const datasets = allCategories.map((cat, i) => {
+      const data = gastos.map(mes => Number(mes[cat] ?? 0));
+      return {
+        label: cat,
+        data,
+        backgroundColor: colors[i % colors.length],
+        stack: 'gastos',
+        hidden: false, // visible inicialmente
+      };
+    });
+
+    const ctx = document.getElementById("monthlyChart").getContext("2d");
+
+    const chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels,
+        datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            onClick: (e, legendItem, legend) => {
+              const index = legendItem.datasetIndex;
+              const ci = legend.chart;
+              const meta = ci.getDatasetMeta(index);
+              meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+              ci.update();
+            },
+            labels: {
+              boxWidth: 15,
+              padding: 10,
+              font: { size: 14 }
+            }
+          },
+          title: {
+            display: true,
+            text: 'Gastos mensuales por categoría',
+            font: { size: 18 }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} €`
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            ticks: {
+              maxRotation: 45,
+              minRotation: 30,
+              font: { size: 12 }
+            }
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Euros (€)',
+              font: { size: 14 }
+            },
+            ticks: {
+              font: { size: 12 },
+              callback: value => `${value} €`
+            }
+          }
+        }
+      },
+      plugins: [{
+        // plugin para hacer el canvas responsivo en altura
+        id: 'customHeight',
+        beforeInit(chart) {
+          function resize() {
+            const width = chart.width;
+            chart.height = width * 0.6; // aspecto 5:3 para mejor visibilidad vertical
+            chart.resize();
+          }
+          window.addEventListener('resize', resize);
+          resize();
+        }
+      }]
+    });
+
+    const showAllBtn = document.getElementById("show-all");
+    const hideAllBtn = document.getElementById("hide-all");
+
+    showAllBtn.addEventListener("click", () => {
+      chart.data.datasets.forEach((dataset, i) => {
+        const meta = chart.getDatasetMeta(i);
+        meta.hidden = false;
+      });
+      chart.update();
+    });
+
+    hideAllBtn.addEventListener("click", () => {
+      chart.data.datasets.forEach((dataset, i) => {
+        const meta = chart.getDatasetMeta(i);
+        meta.hidden = true;
+      });
+      chart.update();
+    });
+  </script>
+</body>
+</html>

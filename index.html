@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UniBudget</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1>UniBudget</h1>
+    <div class="header-content">
+      <i class="fas fa-piggy-bank logo-icon"></i>
+      <h1>UniBudget <span class="beta-tag">BETA</span></h1>
+      <p class="tagline">Controla tu pasta como un pro</p>
+    </div>
   </header>
   <main>
     <section id="summary" class="hidden">
@@ -19,6 +25,7 @@
       <p>Gasto acumulado: <strong id="gasto-acumulado">0 €</strong></p>
       <p>Saldo restante: <strong id="saldo-restante">0 €</strong></p>
       <button id="add-income-btn" type="button">Añadir ingreso extra</button>
+      <button id="open-graph-btn" type="button">Ver gráfica mensual</button>
     </section>
 
     
@@ -70,9 +77,9 @@
 
     <section id="month-view" class="hidden">
       <div id="month-nav">
-        <button id="prev-month">&larr;</button>
+        <button id="prev-month"></button>
         <div id="month-name">Mes</div>
-        <button id="next-month">&rarr;</button>
+        <button id="next-month"></button>
       </div>
 
       <form id="categories-form"></form>
