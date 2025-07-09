@@ -1,199 +1,377 @@
+/* ===== VARIABLES ===== */
 :root {
-    --radius: 8px;
-    --bg: #f8f9fa;
-    --primary: #4f46e5;
-    --text: #111;
-    --danger: #dc2626;
-  }
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --success: #10b981;
+  --success-dark: #059669;
+  --danger: #ef4444;
+  --danger-dark: #b91c1c;
+  --bg: var(--bg, #f9fafb);
+  --text: var(--text, #252525);
+  --radius: 8px;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --shadow-strong: rgba(0, 0, 0, 0.15);
+}
 
-  body {
-    margin: 0;
-    padding: 1rem;
-    font-family: system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  header {
-    text-align: center;
-    margin-bottom: 1rem;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
-  section {
-    background: white;
-    border-radius: var(--radius);
-    padding: 1rem;
-    max-width: 500px;
-    margin: 1rem auto;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+@keyframes neon-glow {
+  from {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
   }
+  to {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+  }
+}
 
-  label {
-    display: block;
-    margin: 0.5rem 0 0.2rem;
-  }
+/* ===== BASE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  input,
-  select,
-  button {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: var(--radius);
-    border: 1px solid #ccc;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
+body {
+  background: var(--bg);
+  font-family: 'Poppins', system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  transition: all 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
 
-  button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #4338ca;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  #month-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  #month-name {
-    font-weight: bold;
-    font-size: 1.4rem;
-    min-width: 130px;
-    text-align: center;
-  }
-
-  #categories-form label {
-    margin-top: 1rem;
-  }
-
-  .negativo {
-    color: var(--danger);
-  }
-
-  ul#categories-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  ul#categories-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.2rem 0;
-  }
-
-  ul#categories-list button {
-    width: auto;
-    background: var(--danger);
-    font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
-  }
-
-  /* Ocultar elementos con .hidden */
-.hidden {
-    display: none !important;
-  }
-  
-  /* Fondo oscuro y centrado modal */
-  #extra-income-dialog {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.5); /* Fondo semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Caja blanca del modal */
-  #extra-income-dialog > div {
-    background: white;
-    padding: 1.5rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    min-width: 300px;
-    max-width: 90vw;
-    box-sizing: border-box;
-  }
-  
-  /* Estilo etiquetas e inputs */
-  #extra-income-dialog label {
-    display: block;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  
-  #extra-income-dialog input[type="number"],
-  #extra-income-dialog select {
-    width: 100%;
-    padding: 0.4rem 0.6rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  /* Botones */
-  #extra-income-dialog button {
-    margin-right: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 4px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  #extra-income-dialog button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Botón cancelar distinto */
-  #cancel-extra-income {
-    background-color: #dc3545;
-  }
-  
-  #cancel-extra-income:hover {
-    background-color: #a71d2a;
-  }
-  
-
-  /* Contenedor principal, ejemplo */
 main {
-    max-width: 480px; /* ancho base para móvil */
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  color: #FFFFFF;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px var(--shadow-medium);
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== SECCIONES ===== */
+section {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  border: 1px solid var(--shadow-light);
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px var(--shadow-medium);
+}
+
+section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary), #a777e3);
+}
+
+/* ===== FORMULARIOS ===== */
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  background: white;
+}
+
+/* ===== BOTONES ===== */
+button {
+  background: var(--primary);
+  color: white !important;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0.5rem 0;
+  user-select: none;
+}
+
+button:hover,
+button:focus-visible {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px var(--shadow-strong);
+  outline: none;
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Botón guardar especial */
+#save-setup {
+  background: var(--success);
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+#save-setup:hover {
+  background: var(--success-dark);
+  animation: neon-glow 1.5s infinite alternate;
+}
+
+/* Botones navegación meses */
+#prev-month,
+#next-month {
+  background: transparent;
+  color: var(--primary) !important;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+#prev-month:hover,
+#next-month:hover,
+#prev-month:focus,
+#next-month:focus {
+  background: rgba(79, 70, 229, 0.1);
+  outline: none;
+}
+
+/* ===== LISTA CATEGORÍAS ===== */
+#categories-list li {
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+#categories-list li:hover {
+  background: #f0f4f8;
+}
+
+#categories-list button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  background: var(--danger);
+  border: none;
+  border-radius: var(--radius);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#categories-list button:hover {
+  background: var(--danger-dark);
+}
+
+/* ===== RESUMEN ===== */
+#summary {
+  text-align: center;
+}
+
+#summary p {
+  font-size: 1.1rem;
+  margin: 0.8rem 0;
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#summary strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ===== NAVEGACIÓN MES ===== */
+#month-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+#month-name {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+/* ===== MODAL ===== */
+#extra-income-dialog > div {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ===== UTILIDADES ===== */
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.negativo {
+  color: var(--danger) !important;
+  font-weight: 700;
+}
+
+/* ===== TIPOGRAFÍA & ICONOS ===== */
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+/* HEADER CON PERSONALIDAD */
+.header-content {
+  position: relative;
+}
+
+.logo-icon {
+  font-size: 2.5rem;
+  color: #ffde59;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.5rem;
+}
+
+.beta-tag {
+  background: #ffde59;
+  color: var(--primary);
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  margin-left: 0.5rem;
+  vertical-align: super;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: -0.5rem;
+}
+
+/* BOTONES CON ICONOS */
+#save-setup::before {
+  content: "\f058";
+  font-family: "Font Awesome 6 Free";
+  margin-right: 0.5rem;
+  font-weight: 900;
+}
+
+#add-income-btn::before {
+  content: "\f155";
+  font-family: "Font Awesome 6 Free";
+  margin-right: 0.5rem;
+  font-weight: 900;
+}
+
+#open-graph-btn::before {
+  content: "\f200";
+  font-family: "Font Awesome 6 Free";
+  margin-right: 0.5rem;
+  font-weight: 900;
+}
+
+#prev-month::before {
+  content: "\f104";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+#next-month::after {
+  content: "\f105";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  main {
+    padding: 0.75rem;
+  }
+  section {
     padding: 1rem;
-    box-sizing: border-box;
+    margin: 1rem auto;
   }
-  
-  /* Para pantallas más grandes */
-  @media (min-width: 768px) {
-    main {
-      max-width: 900px; /* ancho mayor para tablet y escritorio */
-    }
+  button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
-  
-  @media (min-width: 1200px) {
-    main {
-      max-width: 1200px; /* ancho aún mayor para pantallas grandes */
-    }
+  #categories-list li {
+    padding: 0.5rem;
   }
+}
