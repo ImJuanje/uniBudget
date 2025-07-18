@@ -171,7 +171,6 @@ function renderCategoryInputs() {
   });
 }
 
-
 // =====================
 // Mostrar mes
 // =====================
