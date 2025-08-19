@@ -1,0 +1,119 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniBudget</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <i class="fas fa-piggy-bank logo-icon"></i>
+      <h1>UniBudget <span class="beta-tag">BETA</span></h1>
+      <p class="tagline">Controla tu pasta como un pro</p>
+    </div>
+    
+  </header>
+
+  <main>
+    <section id="summary" class="hidden">
+      <div>
+        <div>
+          <p>Total disponible: <strong id="total">0 €</strong></p>
+          <p>Meses a cubrir: <strong id="meses">0</strong></p>
+          <p>Presupuesto mensual: <strong id="presupuesto">0 €</strong></p>
+          <p>Gasto acumulado: <strong id="gasto-acumulado">0 €</strong></p>
+          <p>Saldo restante: <strong id="saldo-restante">0</strong></p>
+          <div id="buttons-container">
+            <button id="add-income-btn" type="button">Añadir ingreso extra</button>
+            <button id="open-graph-btn" type="button">Ver gráfica mensual</button>
+            <button id="open-proposal-btn" class="btn-resumen">  <i class="fa-solid fa-lightbulb"></i>Propuesta de gasto</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="proposal-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-proposal" class="close">&times;</span>
+        <h2>Propuesta de gasto para <span id="modal-month-name"></span></h2>
+        <div id="proposal-list"></div>
+        <div class="modal-buttons">
+          <button id="apply-proposal-btn">Aplicar</button>
+          <button id="cancel-proposal-btn">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diálogo (oculto inicialmente) -->
+    <div id="extra-income-dialog" class="hidden">
+      <div>
+        <label>Importe extra (€)
+          <input type="number" id="extra-income-amount" min="0" step="0.01" />
+        </label>
+
+        <label>Mes en el que lo recibes
+          <select id="extra-income-month"></select>
+        </label>
+
+        <button id="confirm-extra-income">Guardar</button>
+        <button id="cancel-extra-income">Cancelar</button>
+      </div>
+    </div>
+
+    <section id="setup">
+      <label for="initial-income">¿Cuánto dinero tienes para el curso?</label>
+      <input type="number" id="initial-income" placeholder="Ej: 2500" />
+
+      <label for="months">¿Cuántos meses debe durar?</label>
+      <input type="number" id="months" placeholder="Ej: 9" />
+
+      <div class="start-month-group">
+        <label for="start-month">Mes de inicio</label>
+        <select id="start-month">
+          <option value="0">Enero</option>
+          <option value="1">Febrero</option>
+          <option value="2">Marzo</option>
+          <option value="3">Abril</option>
+          <option value="4">Mayo</option>
+          <option value="5">Junio</option>
+          <option value="6">Julio</option>
+          <option value="7">Agosto</option>
+          <option value="8">Septiembre</option>
+          <option value="9">Octubre</option>
+          <option value="10">Noviembre</option>
+          <option value="11">Diciembre</option>
+        </select>
+      </div>
+
+      <button id="save-setup">Guardar configuración</button>
+    </section>
+
+    <section id="month-view" class="hidden">
+      <div id="month-nav">
+        <button id="prev-month"></button>
+        <div id="month-name">Mes</div>
+        <button id="next-month"></button>
+      </div>
+
+      <form id="categories-form"></form>
+      <p>Diferencia mensual: <strong id="month-difference">0 €</strong></p>
+
+      <h3>Gestionar Categorías</h3>
+      <form id="add-category-form">
+        <input type="text" id="new-category-name" placeholder="Nueva categoría" />
+        <button type="submit">Añadir</button>
+      </form>
+      <ul id="categories-list"></ul>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+  <script src="suggest.js"></script>
+</body>
+</html>

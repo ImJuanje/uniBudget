@@ -1,118 +1,354 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UniBudget</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- SEO básico -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UniBudget — Tu presupuesto, claro y sin líos</title>
+  <meta name="description" content="UniBudget te ayuda a estirar tus ingresos estacionales a lo largo del año. Ideal para estudiantes y jóvenes. Simple, visual y gratuito." />
+  <meta name="keywords" content="presupuesto estudiantes, finanzas personales jóvenes, app presupuesto simple, ahorro mensual" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="UniBudget — Tu presupuesto, claro y sin líos" />
+  <meta property="og:description" content="Estira tus ingresos a lo largo del año con UniBudget. Simple, visual y gratuito." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://unibudgett.netlify.app/landing.html" />
+  <meta property="og:image" content="https://unibudgett.netlify.app/og-cover.png" />
+
+  <!-- Tipografías e iconos -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="landing.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Favicon (opcional) -->
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- Estructurados -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "UniBudget",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "App simple para planificar presupuesto con ingresos estacionales. Ideal para estudiantes y jóvenes.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
 </head>
-<body>
-  <header>
-    <div class="header-content">
-      <i class="fas fa-piggy-bank logo-icon"></i>
-      <h1>UniBudget <span class="beta-tag">BETA</span></h1>
-      <p class="tagline">Controla tu pasta como un pro</p>
-    </div>
+<body class="landing">
+
+  <!-- Navbar -->
+  <header class="lb-nav">
+    <div class="lb-container">
+      <a class="lb-brand" href="index.html">
+        <i class="fas fa-piggy-bank"></i> <span style="color: #6366f1;">UniBudget</span>
+        <span class="beta-tag">BETA</span>
+      </a>
+      <nav class="lb-links" style="color: black;">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#para-quien">Para quién</a>
+        <a href="#faq">FAQ</a>
+        <a class="lb-cta" href="uniBudget.html">Usar la app</a>
+       
+      </nav>
+        <button class="lb-menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+       </div>
   </header>
 
-  <main>
-    <section id="summary" class="hidden">
-      <div>
-        <div>
-          <p>Total disponible: <strong id="total">0 €</strong></p>
-          <p>Meses a cubrir: <strong id="meses">0</strong></p>
-          <p>Presupuesto mensual: <strong id="presupuesto">0 €</strong></p>
-          <p>Gasto acumulado: <strong id="gasto-acumulado">0 €</strong></p>
-          <p>Saldo restante: <strong id="saldo-restante">0</strong></p>
-          <div id="buttons-container">
-            <button id="add-income-btn" type="button">Añadir ingreso extra</button>
-            <button id="open-graph-btn" type="button">Ver gráfica mensual</button>
-            <button id="open-proposal-btn" class="btn-resumen">  <i class="fa-solid fa-lightbulb"></i>Propuesta de gasto</button>
+
+  <!-- Hero -->
+  <section class="lb-hero">
+    <div class="lb-container hero-grid">
+      <div class="hero-copy">
+        <h1>
+          Haz que tu dinero <span class="grad">dure más</span>
+        </h1>
+        <p class="sub">
+          UniBudget reparte tus ingresos puntuales a lo largo del año. 
+          Visual, rápido y sin cuentas raras. Perfecto para estudiantes… y para cualquiera.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="uniBudget.html">
+            <i class="fa-solid fa-play"></i> Probar ahora
+          </a>
+          <a class="btn btn-ghost" href="#como-funciona">
+            Ver cómo funciona
+          </a>
+        </div>
+        <ul class="trust-points">
+          <li><i class="fa-solid fa-bolt"></i> Sin registro, directo al grano</li>
+          <li><i class="fa-solid fa-shield-heart"></i> Tus datos se guardan en tu dispositivo</li>
+          <li><i class="fa-solid fa-mobile-screen"></i> Funciona en móvil y ordenador</li>
+        </ul>
+      </div>
+      <div class="hero-card">
+        <div class="mockup">
+          <div class="mock-header">
+            <i class="fas fa-piggy-bank"></i> UniBudget
+          </div>
+          <div class="mock-body">
+            <div class="mock-row"><span>Total disponible</span><strong>2.500 €</strong></div>
+            <div class="mock-row"><span>Meses a cubrir</span><strong>9</strong></div>
+            <div class="mock-row"><span>Presupuesto mensual</span><strong>277,78 €</strong></div>
+            <div class="mock-divider"></div>
+            <button class="btn btn-primary btn-full"><i class="fa-solid fa-lightbulb"></i> Propuesta de gasto</button>
           </div>
         </div>
+        <p class="caption">Vista previa ilustrativa. La interfaz real puede variar.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Modal -->
-    <div id="proposal-modal" class="modal hidden">
-      <div class="modal-content">
-        <span id="close-proposal" class="close">&times;</span>
-        <h2>Propuesta de gasto para <span id="modal-month-name"></span></h2>
-        <div id="proposal-list"></div>
-        <div class="modal-buttons">
-          <button id="apply-proposal-btn">Aplicar</button>
-          <button id="cancel-proposal-btn">Cancelar</button>
+  <!-- PAS (Problema-Agitación-Solución) -->
+  <section id="como-funciona" class="lb-section pas">
+    <div class="lb-container">
+      <div class="pas-grid">
+        <div class="pas-card">
+          <h3><i class="fa-solid fa-circle-exclamation"></i> El problema</h3>
+          <p>Ingresas <strong>de golpe</strong> (trabajo de verano, beca, ayudas) y al cabo de unos meses el dinero vuela. Sin control, es fácil perder el rumbo.</p>
+        </div>
+        <div class="pas-card">
+          <h3><i class="fa-solid fa-fire"></i> La realidad</h3>
+          <p>Excel da pereza, las apps complejas sobran. Necesitas <strong>algo simple</strong> que te diga cuánto puedes gastar cada mes y en qué.</p>
+        </div>
+        <div class="pas-card">
+          <h3><i class="fa-solid fa-seedling"></i> La solución</h3>
+          <p><strong>UniBudget</strong> reparte tu dinero por meses, te muestra el progreso, y sugiere una distribución inteligente por categorías.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Diálogo (oculto inicialmente) -->
-    <div id="extra-income-dialog" class="hidden">
-      <div>
-        <label>Importe extra (€)
-          <input type="number" id="extra-income-amount" min="0" step="0.01" />
-        </label>
-
-        <label>Mes en el que lo recibes
-          <select id="extra-income-month"></select>
-        </label>
-
-        <button id="confirm-extra-income">Guardar</button>
-        <button id="cancel-extra-income">Cancelar</button>
+  <!-- Cómo funciona (3 pasos) -->
+  <section class="lb-section steps">
+    <div class="lb-container">
+      <h2 class="center">Cómo funciona</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-coins"></i></div>
+          <h3>1) Define tu base</h3>
+          <p>Indica cuánto tienes y cuántos meses debe durar. UniBudget calcula tu <strong>presupuesto mensual</strong>.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-table-cells"></i></div>
+          <h3>2) Registra gastos</h3>
+          <p>Anota tus gastos por categoría (alquiler, transporte, alimentación…). Añade las tuyas si lo necesitas.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-chart-column"></i></div>
+          <h3>3) Ajusta y decide</h3>
+          <p>Consulta tu saldo restante, mira tu diferencia mensual y deja que la <strong>propuesta de gasto</strong> te ayude a repartir mejor.</p>
+        </div>
+      </div>
+      <div class="center">
+        <a class="btn btn-primary" href="uniBudget.html"><i class="fa-solid fa-play"></i> Empezar gratis</a>
       </div>
     </div>
+  </section>
 
-    <section id="setup">
-      <label for="initial-income">¿Cuánto dinero tienes para el curso?</label>
-      <input type="number" id="initial-income" placeholder="Ej: 2500" />
-
-      <label for="months">¿Cuántos meses debe durar?</label>
-      <input type="number" id="months" placeholder="Ej: 9" />
-
-      <div class="start-month-group">
-        <label for="start-month">Mes de inicio</label>
-        <select id="start-month">
-          <option value="0">Enero</option>
-          <option value="1">Febrero</option>
-          <option value="2">Marzo</option>
-          <option value="3">Abril</option>
-          <option value="4">Mayo</option>
-          <option value="5">Junio</option>
-          <option value="6">Julio</option>
-          <option value="7">Agosto</option>
-          <option value="8">Septiembre</option>
-          <option value="9">Octubre</option>
-          <option value="10">Noviembre</option>
-          <option value="11">Diciembre</option>
-        </select>
+  <!-- Beneficios -->
+  <section id="beneficios" class="lb-section benefits">
+    <div class="lb-container">
+      <h2 class="center">Beneficios que notarás desde el día 1</h2>
+      <div class="benefits-grid">
+        <article class="benefit">
+          <i class="fa-solid fa-gauge-high"></i>
+          <h3>Velocidad</h3>
+          <p>Sin registros ni configuraciones eternas. En 30 segundos ya tienes tu plan base.</p>
+        </article>
+        <article class="benefit">
+          <i class="fa-solid fa-eye"></i>
+          <h3>Claridad</h3>
+          <p>Todo visible: presupuesto mensual, gasto acumulado, saldo restante y diferencia del mes.</p>
+        </article>
+        <article class="benefit">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <h3>Reparto inteligente</h3>
+          <p>La propuesta sugiere cuánto asignar por categoría según prioridades.</p>
+        </article>
+        <article class="benefit">
+          <i class="fa-solid fa-lock"></i>
+          <h3>Privado</h3>
+          <p>Tus datos se guardan en <strong>tu navegador</strong> con localStorage. Nadie más los ve.</p>
+        </article>
+        <article class="benefit">
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <h3>Multi-dispositivo</h3>
+          <p>Funciona en móvil y ordenador. Nada que instalar.</p>
+        </article>
+        <article class="benefit">
+          <i class="fa-solid fa-euro-sign"></i>
+          <h3>100% gratis</h3>
+          <p>Úsala sin pagar. Más funciones llegarán, y las básicas seguirán siendo gratuitas.</p>
+        </article>
       </div>
+    </div>
+  </section>
 
-      <button id="save-setup">Guardar configuración</button>
-    </section>
-
-    <section id="month-view" class="hidden">
-      <div id="month-nav">
-        <button id="prev-month"></button>
-        <div id="month-name">Mes</div>
-        <button id="next-month"></button>
+  <!-- Para quién -->
+  <section id="para-quien" class="lb-section audience">
+    <div class="lb-container">
+      <h2 class="center">Pensada para estudiantes, útil para todos</h2>
+      <div class="audience-grid">
+        <div class="aud-card">
+          <h3><i class="fa-solid fa-user-graduate"></i> Estudiantes</h3>
+          <p>Becas, ayudas y trabajos de verano: controla tu año académico sin agobios.</p>
+        </div>
+        <div class="aud-card">
+          <h3><i class="fa-solid fa-briefcase"></i> Trabajos temporales</h3>
+          <p>Si cobras a temporadas, UniBudget te ayuda a repartir y llegar a todo.</p>
+        </div>
+        <div class="aud-card">
+          <h3><i class="fa-solid fa-house-user"></i> Independizados</h3>
+          <p>Alquiler, super, transporte… Ten claro cuánto puedes gastar cada mes.</p>
+        </div>
+        <div class="aud-card">
+          <h3><i class="fa-solid fa-people-group"></i> Jóvenes en general</h3>
+          <p>Da igual tu situación: si quieres <strong>orden</strong> y <strong>tranquilidad</strong>, esto es para ti.</p>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <form id="categories-form"></form>
-      <p>Diferencia mensual: <strong id="month-difference">0 €</strong></p>
+  <!-- Comparativa (por qué UniBudget) -->
+  <section class="lb-section compare">
+    <div class="lb-container">
+      <h2 class="center">¿Por qué UniBudget y no otra?</h2>
+      <div class="compare-grid">
+        <div class="comp-card">
+          <h3><i class="fa-solid fa-file-excel"></i> Excel</h3>
+          <ul>
+            <li>❌ Lento de configurar</li>
+            <li>❌ Difícil en móvil</li>
+            <li>❌ Poco visual</li>
+          </ul>
+        </div>
+        <div class="comp-card highlight">
+          <h3><i class="fa-solid fa-piggy-bank"></i> UniBudget</h3>
+          <ul>
+            <li>✅ Montaje en 30 segundos</li>
+            <li>✅ Visual y simple</li>
+            <li>✅ Reparto inteligente</li>
+          </ul>
+        </div>
+        <div class="comp-card">
+          <h3><i class="fa-solid fa-layer-group"></i> Otras apps</h3>
+          <ul>
+            <li>❌ Registro obligatorio</li>
+            <li>❌ Demasiadas opciones</li>
+            <li>❌ Publicidad invasiva</li>
+          </ul>
+        </div>
+      </div>
+      <div class="center">
+        <a class="btn btn-primary" href="uniBudget.html">Probar UniBudget</a>
+      </div>
+    </div>
+  </section>
 
-      <h3>Gestionar Categorías</h3>
-      <form id="add-category-form">
-        <input type="text" id="new-category-name" placeholder="Nueva categoría" />
-        <button type="submit">Añadir</button>
-      </form>
-      <ul id="categories-list"></ul>
-    </section>
-  </main>
+  <!-- Testimonios (placeholder) -->
+  <section class="lb-section testimonials">
+    <div class="lb-container">
+      <h2 class="center">Lo que dicen quienes la usan</h2>
+      <div class="testi-grid">
+        <blockquote class="testi">
+          “Por fin dejo de hacer malabares con el dinero del verano. Ahora sé cuánto puedo gastar cada mes.” 
+          <span>— Ana, 2º de carrera</span>
+        </blockquote>
+        <blockquote class="testi">
+          “En 1 minuto lo tenía todo claro. La propuesta por categorías es 🧠.” 
+          <span>— Marcos, primer piso compartido</span>
+        </blockquote>
+        <blockquote class="testi">
+          “Es justo lo que necesitaba: simple, sin registro y muy clara.” 
+          <span>— Laura, máster</span>
+        </blockquote>
+      </div>
+    </div>
+  </section>
 
-  <script src="main.js"></script>
-  <script src="suggest.js"></script>
+  <!-- Roadmap -->
+  <section class="lb-section roadmap">
+    <div class="lb-container">
+      <h2 class="center">Roadmap</h2>
+      <ul class="road-list">
+        <li><span class="tag done">Hecho</span> Validaciones amigables y categorías personalizadas</li>
+        <li><span class="tag done">Hecho</span> Gráfica mensual y propuesta de gasto aplicada</li>
+        <li><span class="tag next">Próximo</span> Plan de ahorro a largo plazo</li>
+        <li><span class="tag next">Próximo</span> Exportación CSV/PDF</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="lb-section faq">
+    <div class="lb-container">
+      <h2 class="center">Preguntas frecuentes</h2>
+      <div class="faq-grid">
+        <details open>
+          <summary>¿Es gratis?</summary>
+          <p>Sí. Las funciones base son gratuitas. Más adelante añadiremos extras opcionales.</p>
+        </details>
+        <details>
+          <summary>¿Tengo que registrarme?</summary>
+          <p>No. Empiezas a usarla directamente.</p>
+        </details>
+        <details>
+          <summary>¿Dónde se guardan mis datos?</summary>
+          <p>En tu dispositivo (localStorage). Nadie más los ve.</p>
+        </details>
+        <details>
+          <summary>¿Funciona sin internet?</summary>
+          <p>Si ya la cargaste una vez, puedes seguir usándola offline (según caché del navegador).</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="lb-section final-cta">
+    <div class="lb-container center">
+      <h2>Organiza tu dinero hoy. Tu yo del futuro te lo agradecerá.</h2>
+      <a class="btn btn-primary btn-lg" href="uniBudget.html">
+        <i class="fa-solid fa-play"></i> Ir a la aplicación
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="lb-footer">
+    <div class="lb-container footer-grid">
+      <div>
+        <div class="lb-brand small">
+          <i class="fas fa-piggy-bank"></i> UniBudget <span class="beta-tag">BETA</span>
+        </div>
+        <p class="muted">Proyecto dentro de Appxpand. Hecho con cariño para estudiantes y jóvenes.</p>
+      </div>
+      <nav class="footer-links">
+        <a href="uniBudget.html">App</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="footer-meta">
+        <button id="backToTop" class="btn btn-ghost small">Volver arriba</button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="landing.js"></script>
 </body>
 </html>

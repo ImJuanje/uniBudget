@@ -493,3 +493,5 @@ document.querySelectorAll('button, section, #categories-list li').forEach(el => 
     el.style.transition = 'all 0.2s ease';
   });
 });
+
+
